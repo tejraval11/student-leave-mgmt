@@ -25,16 +25,27 @@ export default function ApplyLeave() {
 
   const fetchFacultyList = async () => {
     try {
-      // In a real app, you'd fetch faculty from an API
-      // For now, we'll use mock data
-      const mockFaculty = [
-        { id: 'faculty1', name: 'Dr. John Smith', department: 'Computer Science' },
-        { id: 'faculty2', name: 'Prof. Sarah Johnson', department: 'Mathematics' },
-        { id: 'faculty3', name: 'Dr. Michael Brown', department: 'Physics' }
-      ]
-      setFacultyList(mockFaculty)
+      // Fetch faculty from the database
+      const response = await fetch('/api/faculty')
+      if (response.ok) {
+        const faculty = await response.json()
+        setFacultyList(faculty)
+      } else {
+        // Fallback to mock data if API fails
+        const mockFaculty = [
+          { id: '1', name: 'Dr. John Smith', department: 'Computer Science' },
+          { id: '2', name: 'Prof. Sarah Johnson', department: 'Mathematics' }
+        ]
+        setFacultyList(mockFaculty)
+      }
     } catch (error) {
       console.error('Error fetching faculty list:', error)
+      // Fallback to mock data
+      const mockFaculty = [
+        { id: '1', name: 'Dr. John Smith', department: 'Computer Science' },
+        { id: '2', name: 'Prof. Sarah Johnson', department: 'Mathematics' }
+      ]
+      setFacultyList(mockFaculty)
     }
   }
 
